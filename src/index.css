@@ -3,3 +3,6 @@ body {
   padding: 20 0 0 0;
 }
 
+.clickable {
+  cursor: pointer;
+}

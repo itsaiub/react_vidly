@@ -13,16 +13,27 @@ const TableHeader = props => {
     onSort(sortColumn);
   };
 
+  const renderSortIcon = column => {
+    if((column.path !== props.sortColumn.path) || column.key ) {
+      return null
+    }
+    if(props.sortColumn.order === 'asc') {
+      return <i className="fa fa-sort-asc"></i>
+    }
+    return <i className="fa fa-sort-desc"></i>
+  }
+
   return (
     <thead>
       <tr>
         {columns.map(column => (
           <th
             key={column.path || column.key}
+            className='clickable'
             onClick={() => raiseSort(column.path)}
             scope="col"
           >
-            {column.label}
+            {column.label} {renderSortIcon(column)}
           </th>
         ))}
       </tr>
