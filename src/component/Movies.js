@@ -43,14 +43,7 @@ class Movies extends Component {
     this.setState({ selectedGenre: genre, currentPage: 1 });
   };
 
-  handleSort = path => {
-    const sortColumn = {...this.state.sortColumn};
-    if(sortColumn.path === path) {
-      sortColumn.order = sortColumn.order === "asc" ? "desc" : "asc";
-    } else {
-      sortColumn.path = path;
-      sortColumn.order = 'asc'
-    }
+  handleSort = sortColumn => {
     this.setState({ sortColumn });
   };
 
@@ -77,32 +70,29 @@ class Movies extends Component {
 
     const movies = paginate(sorted, currentPage, pageSize);
 
-    return (
-      <div className="row mt-4">
+    return <div className="row mt-4">
         <div className="col-4 mt-4">
-          <ListGroup
-            items={this.state.genres}
-            onItemSelect={this.handleGenreSelect}
-            selectedItem={this.state.selectedGenre}
-          />
+          <ListGroup 
+            items={this.state.genres} 
+            onItemSelect={this.handleGenreSelect} 
+            selectedItem={this.state.selectedGenre} />
         </div>
         <div className="col">
           <p>Showing {filtered.length} movies in the database.</p>
-          <MoviesTable
-            movies={movies}
-            onLike={this.handleLike}
-            onDelete={this.handleDelete}
-            onSort={this.handleSort}
-          />
-          <Pagination
-            itemsCount={filtered.length}
-            pageSize={pageSize}
-            currentPage={currentPage}
-            onPageChange={this.handlePageChange}
-          />
+          <MoviesTable 
+            movies={movies} 
+            onLike={this.handleLike} 
+            onDelete={this.handleDelete} 
+            onSort={this.handleSort} 
+            sortColumn={sortColumn} />
+
+          <Pagination 
+            itemsCount={filtered.length} 
+            pageSize={pageSize} 
+            currentPage={currentPage} 
+            onPageChange={this.handlePageChange} />
         </div>
-      </div>
-    );
+      </div>;
   }
 }
 
