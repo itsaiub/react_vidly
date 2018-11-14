@@ -11,8 +11,12 @@ class LoginForm extends Component {
   };
 
   schema = {
-    username: Joi.string().required().label('Username'),
-    password: Joi.string().required().label('Password')
+    username: Joi.string()
+      .required()
+      .label("Username"),
+    password: Joi.string()
+      .required()
+      .label("Password")
   };
 
   validate = () => {
@@ -40,27 +44,22 @@ class LoginForm extends Component {
     console.log("Submitted");
   };
 
-  validateProperty = ({name, value}) => {
-     if(name === 'username') {
-        if(value.trim() === '') {
-           return 'Username is required.'
-        }
-     }
-     if(name === 'password') {
-        if(value.trim() === '') {
-           return 'Password is required.'
-        }
-     }  
-  }
+  validateProperty = ({ name, value }) => {
+    const obj = { [name]: value };
+    const schema = { [name]: this.schema[name] };
+    const result = Joi.validate(obj, schema);
+    
+    return result.error ? result.error.details[0].message : null;
+  };
 
   handleChange = ({ currentTarget: input }) => {
-    const errors = {...this.state.errors};
+    const errors = { ...this.state.errors };
     const errorMessage = this.validateProperty(input);
-    
-    if(errorMessage) {
-       errors[input.name] = errorMessage
+
+    if (errorMessage) {
+      errors[input.name] = errorMessage;
     } else {
-       delete errors[input.name]
+      delete errors[input.name];
     }
 
     const account = { ...this.state.account };
