@@ -1,6 +1,10 @@
 body {
   margin: 0;
-  padding: 20 0 0 0;
+  padding: 0;
+}
+
+.navbar {
+  margin-bottom: 30px;
 }
 
 .clickable {
