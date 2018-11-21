@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { getMovies } from "../services/fakeMovieService";
-import { getGenres } from "../services/fakeGenreService";
+import { getGenres } from "../services/genreService";
 import Pagination from "./common/Pagination";
 import ListGroup from "./common/ListGroup";
 import { paginate } from "../utils/paginate";
@@ -20,8 +20,9 @@ class Movies extends Component {
     searchQuery: ""
   };
 
-  componentDidMount() {
-    const genres = [{ name: "All Genres", _id: "" }, ...getGenres()];
+  async componentDidMount() {
+    const { data } = await getGenres();
+    const genres = [{ name: "All Genres", _id: "" }, ...data];
     this.setState({ movies: getMovies(), genres });
   }
 
@@ -70,11 +71,12 @@ class Movies extends Component {
     }
 
     let filtered = allMovies;
-    if(searchQuery) {
-      filtered = allMovies.filter(m => m.title.toLowerCase().startsWith(searchQuery.toLowerCase()))
-    }
-    else if (selectedGenre && selectedGenre._id) {
-      filtered = allMovies.filter(m => m.genre._id === selectedGenre._id)
+    if (searchQuery) {
+      filtered = allMovies.filter(m =>
+        m.title.toLowerCase().startsWith(searchQuery.toLowerCase())
+      );
+    } else if (selectedGenre && selectedGenre._id) {
+      filtered = allMovies.filter(m => m.genre._id === selectedGenre._id);
     }
 
     const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
