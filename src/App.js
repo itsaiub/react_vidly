@@ -9,8 +9,8 @@ import NavBar from "./component/NavBar";
 import MovieForm from "./component/MovieForm";
 import LoginForm from "./component/LoginForm";
 import Register from "./component/Register";
-import Logout from "./component/Logout"; 
-import auth from './services/authService'
+import Logout from "./component/Logout";
+import auth from "./services/authService";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 
@@ -18,7 +18,7 @@ class App extends Component {
   state = {};
 
   componentDidMount() {
-    const user = auth.getCurrentUser()
+    const user = auth.getCurrentUser();
     this.setState({ user });
   }
   render() {
@@ -32,7 +32,10 @@ class App extends Component {
             <Route path="/register" component={Register} />
             <Route path="/login" component={LoginForm} />
             <Route path="/movies/:id" component={MovieForm} />
-            <Route path="/movies" component={Movies} />
+            <Route
+              path="/movies"
+              render={props => <Movies {...props} user={this.state.user} />}
+            />
             <Route path="/customers" component={Customers} />
             <Route path="/rentals" component={Rentals} />
             <Route path="/not-found" component={NotFound} />
