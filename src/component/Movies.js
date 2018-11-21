@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from 'react-router-dom'
 import { getMovies } from "../services/fakeMovieService";
 import { getGenres } from "../services/fakeGenreService";
 import Pagination from "./common/Pagination";
@@ -71,13 +72,14 @@ class Movies extends Component {
     const movies = paginate(sorted, currentPage, pageSize);
 
     return <div className="row mt-4">
-        <div className="col-4 col-sm-4 mt-4">
+        <div className="col-4 col-sm-4 mt-2">
           <ListGroup 
             items={this.state.genres} 
             onItemSelect={this.handleGenreSelect} 
             selectedItem={this.state.selectedGenre} />
         </div>
-        <div className="col">
+        <div className="col mt-2">
+          <Link to='/movies/new' className='btn btn-primary mb-3'>New Movie</Link>
           <p>Showing {filtered.length} movies in the database.</p>
           <MoviesTable 
             movies={movies} 
