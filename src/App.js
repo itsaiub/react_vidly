@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { Route, Redirect, Switch } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import ProtectedRoute from './component/common/ProtectedRoute'
 import Movies from "./component/Movies";
 import Customers from "./component/Customers";
 import Rentals from "./component/Rentals";
@@ -32,12 +33,9 @@ class App extends Component {
             <Route path="/logout" component={Logout} />
             <Route path="/register" component={Register} />
             <Route path="/login" component={LoginForm} />
-            <Route
+            <ProtectedRoute
               path="/movies/:id"
-              render={props => {
-                if (!user) return <Redirect to="/login" />;
-                return <MovieForm {...props} />;
-              }}
+              component={MovieForm}              
             />
             <Route
               path="/movies"
